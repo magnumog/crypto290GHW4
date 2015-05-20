@@ -10,7 +10,7 @@ def fermat(n,a):
 def millerRabin(n,a):
     k,m =  decompose(n-1)
     x = fastermod(a,m,n)
-    if((x%n)==1):
+    if((x)==1%n):
         return False
     for j in range(0,k-1):
         if(x==-1%n):
@@ -73,7 +73,7 @@ def runFermat():
     for i in range(0,len(numbers)):
         tempWitness=0
         tempLiar=0
-        for a in range(1,int(numbers[i])):
+        for a in range(2,int(numbers[i])):
             bol = fermat(numbers[i],a)
             if(bol and tempWitness==0):
                 tempWitness=a
