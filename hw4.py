@@ -8,15 +8,15 @@ def fermat(n,a):
     return False
 
 def millerRabin(n,a):
-    k,m =  decompose(n)
+    k,m =  decompose(n-1)
     x = fastermod(a,m,n)
-    if(x==1%n):
+    if((x%n)==1):
         return False
     for j in range(0,k-1):
         if(x==-1%n):
             return False
         else:
-            x = fastermod(x,2,n)
+            x=(x**2)%n
     return True
 
 def decompose(n):
@@ -70,11 +70,10 @@ numbers.append(2455921)
 def runFermat():
     witnesses = []
     liars = []
-    #for i in range(0,len(numbers)):
     for i in range(0,len(numbers)):
         tempWitness=0
         tempLiar=0
-        for a in range(2,int(numbers[i])):
+        for a in range(1,int(numbers[i])):
             bol = fermat(numbers[i],a)
             if(bol and tempWitness==0):
                 tempWitness=a
@@ -84,8 +83,6 @@ def runFermat():
                 break
         witnesses.append(int(tempWitness))
         liars.append(int(tempLiar))
-    #print("Witnesses",witnesses,len(witnesses))
-    #print("liars",liars,len(liars))
     print "Fermat"
     printNice(witnesses,liars)
 
@@ -97,7 +94,7 @@ def runMillerRabin():
     for i in range(0,len(numbers)):
         tempLiar=0
         tempWitness=0
-        for a in range(1,int(numbers[i])):
+        for a in range(2,int(numbers[i])):
             bol = millerRabin(numbers[i],a)
             if(bol and tempWitness==0):
                 tempWitness=a
@@ -107,15 +104,13 @@ def runMillerRabin():
                 break
         witnesses.append(int(tempWitness))
         liars.append(int(tempLiar))
-    #print("witnesses",witnesses,len(witnesses))
-    #print("liars",liars,len(liars))
     print "Miller-Rabin"
     printNice(witnesses,liars)
 
 def printNice(witnesses,liars):
     for i in range(0,len(numbers)):
         print "NUMBER: ",numbers[i] 
-        print "Witnes: ", witnesses[i]
+        print "Witness: ", witnesses[i]
         print "Liar: ",liars[i]
 
 def main():
